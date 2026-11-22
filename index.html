@@ -1,0 +1,174 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Rechenfreunde</title>
+  <meta name="description" content="Rechnen lernen mit Bildern: Plus, Minus, Zehnerfreunde und Zahlen-Golf.">
+  <meta name="theme-color" content="#fff8ec">
+  <!-- Als App auf dem Home-Bildschirm (iPhone/iPad/Android) -->
+  <link rel="manifest" href="manifest.webmanifest">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-title" content="Rechenfreunde">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+  <link rel="icon" href="icons/icon.svg" type="image/svg+xml">
+  <!-- ?v=… bei jeder Änderung erhöhen, damit Geräte sofort die neue Version laden -->
+  <link rel="stylesheet" href="style.css?v=2">
+</head>
+<body>
+  <header>
+    <h1>🧮 Rechenfreunde</h1>
+    <nav id="tabs">
+      <button data-tab="entdecken" class="active">🔍 Zahlen entdecken</button>
+      <button data-tab="plus">➕ Plus</button>
+      <button data-tab="minus">➖ Minus</button>
+      <button data-tab="freunde">🤝 Zehnerfreunde</button>
+      <button data-tab="ueben">⭐ Üben</button>
+      <button data-tab="golf">⛳ Zahlen-Golf</button>
+    </nav>
+  </header>
+
+  <main>
+    <!-- Zahlen entdecken -->
+    <section id="entdecken" class="tab active">
+      <div class="card">
+        <div class="picker">
+          <button class="round" id="e-dec" aria-label="eins weniger">−</button>
+          <div class="bignum" id="e-num">7</div>
+          <button class="round" id="e-inc" aria-label="eins mehr">+</button>
+        </div>
+        <div class="explain center"><span class="text" id="e-word"></span><button class="speak" aria-label="vorlesen">🔊</button></div>
+        <div class="field" id="e-field"></div>
+        <div class="facts" id="e-facts"></div>
+        <p class="hint">Tippe auf eine Zahl am Zahlenstrahl:</p>
+        <div class="numberline" id="e-line"></div>
+      </div>
+    </section>
+
+    <!-- Plus -->
+    <section id="plus" class="tab">
+      <div class="card">
+        <div class="equation">
+          <div class="stepper"><button data-for="p-a" data-d="-1">−</button><span id="p-a">8</span><button data-for="p-a" data-d="1">+</button></div>
+          <span class="op">+</span>
+          <div class="stepper"><button data-for="p-b" data-d="-1">−</button><span id="p-b" class="blue">5</span><button data-for="p-b" data-d="1">+</button></div>
+          <span class="op">=</span>
+          <span class="result" id="p-res">?</span>
+          <button class="ghost dice" id="p-rand" aria-label="zufällige Aufgabe">🎲</button>
+        </div>
+        <div class="field" id="p-field"></div>
+        <div class="explain"><span class="text" id="p-text"></span><button class="speak" aria-label="vorlesen">🔊</button></div>
+        <div class="numberline" id="p-line"></div>
+        <div class="controls">
+          <button class="ghost" id="p-reset">↺ Von vorne</button>
+          <button class="primary" id="p-next">Weiter ▶</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Minus -->
+    <section id="minus" class="tab">
+      <div class="card">
+        <div class="equation">
+          <div class="stepper"><button data-for="m-a" data-d="-1">−</button><span id="m-a">13</span><button data-for="m-a" data-d="1">+</button></div>
+          <span class="op">−</span>
+          <div class="stepper"><button data-for="m-b" data-d="-1">−</button><span id="m-b" class="grey">5</span><button data-for="m-b" data-d="1">+</button></div>
+          <span class="op">=</span>
+          <span class="result" id="m-res">?</span>
+          <button class="ghost dice" id="m-rand" aria-label="zufällige Aufgabe">🎲</button>
+        </div>
+        <div class="field" id="m-field"></div>
+        <div class="explain"><span class="text" id="m-text"></span><button class="speak" aria-label="vorlesen">🔊</button></div>
+        <div class="numberline" id="m-line"></div>
+        <div class="controls">
+          <button class="ghost" id="m-reset">↺ Von vorne</button>
+          <button class="primary" id="m-next">Weiter ▶</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Zehnerfreunde -->
+    <section id="freunde" class="tab">
+      <div class="card">
+        <div class="explain"><span class="text" id="f-text"></span><button class="speak" aria-label="vorlesen">🔊</button></div>
+        <div class="equation small"><span id="f-eq"></span></div>
+        <div class="field big" id="f-field"></div>
+        <div class="controls">
+          <button class="primary" id="f-new">Neue Zahl ▶</button>
+        </div>
+        <h3>Gefundene Zehnerfreunde</h3>
+        <div class="friends" id="f-list"></div>
+      </div>
+    </section>
+
+    <!-- Üben -->
+    <section id="ueben" class="tab">
+      <div class="card">
+        <div class="settings">
+          <div class="toggle" id="u-type">
+            <button data-v="plus" class="on">➕ Plus</button>
+            <button data-v="minus">➖ Minus</button>
+            <button data-v="mix">🔀 Gemischt</button>
+          </div>
+          <div class="toggle" id="u-range">
+            <button data-v="10" class="on">bis 10</button>
+            <button data-v="20">bis 20</button>
+            <button data-v="24">bis 24</button>
+          </div>
+        </div>
+        <div class="score"><span id="u-stars">⭐ 0</span><span id="u-streak"></span></div>
+        <div class="task" id="u-task"></div>
+        <div class="feedback" id="u-feedback"></div>
+        <div class="pad" id="u-pad"></div>
+        <div class="help" id="u-help" hidden>
+          <div class="field" id="u-field"></div>
+          <div class="numberline" id="u-line"></div>
+        </div>
+        <div class="controls">
+          <button class="ghost" id="u-tip">💡 Tipp</button>
+          <button class="ghost" id="u-skip">Andere Aufgabe ▶</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Zahlen-Golf (für Fortgeschrittene) -->
+    <section id="golf" class="tab">
+      <div class="card">
+        <details class="rules">
+          <summary>So geht Zahlen-Golf</summary>
+          <p>Dein Ball liegt auf einer Zahl. Das Loch ist eine andere Zahl. Jeder Schläger ist eine Rechnung, zum Beispiel <b>Holz ×2</b> oder <b>Wedge −4</b>. Triff das Loch <b>genau</b>, mit möglichst wenigen Schlägen.</p>
+          <p>💦 Landest du im Wasser, gibt es 1 Strafschlag und du schlägst nochmal von vorher. 🚫 Dasselbe gilt, wenn der Ball unter 0 oder über das Platzende fliegt. Ein Chip (:) geht nur, wenn die Teilung ohne Rest aufgeht.</p>
+          <p><b>Par</b> ist die Schlagzahl, die ein guter Spieler braucht. Einer weniger ist ein <b>Birdie</b> 🐦, einer mehr ein <b>Bogey</b>. Tipp: Rechne zuerst im Kopf, dann schlag!</p>
+        </details>
+        <div class="golf-head">
+          <div>Loch<b id="g-hole">1</b></div>
+          <div>Par<b id="g-par">4</b></div>
+          <div>Schläge<b id="g-strokes">0</b></div>
+          <div>Runde<b id="g-total">±0</b></div>
+        </div>
+        <div class="golf-status">
+          <div>Ball ⚪<b id="g-ball">0</b></div>
+          <div>Loch ⛳<b id="g-target">0</b></div>
+          <div>Abstand<b id="g-dist">0</b></div>
+        </div>
+        <div class="course" id="g-course"></div>
+        <div class="explain"><span class="text" id="g-text"></span><button class="speak" aria-label="vorlesen">🔊</button></div>
+        <div class="clubs" id="g-clubs"></div>
+        <div class="controls">
+          <button class="ghost" id="g-hint">🧢 Caddie-Tipp</button>
+          <button class="ghost" id="g-retry">↺ Loch neu</button>
+          <button class="primary" id="g-next" hidden>Nächstes Loch ▶</button>
+        </div>
+        <h3>Scorekarte</h3>
+        <div class="scorewrap"><table class="scorecard" id="g-card"></table></div>
+        <p class="hint" id="g-best"></p>
+        <div class="controls"><button class="ghost" id="g-newround">🏌️ Neue Runde</button></div>
+      </div>
+    </section>
+  </main>
+
+  <script src="app.js?v=2"></script>
+</body>
+</html>
